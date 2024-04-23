@@ -33,6 +33,9 @@ def main(args, writer):
     model, args = load_model(args)
 
     # create central server
+
+    #print(import_module(f'src.server.{args.algorithm}server').__dict__)
+
     server_class = import_module(f'src.server.{args.algorithm}server').__dict__[f'{args.algorithm.title()}Server']
     server = server_class(args=args, writer=writer, server_dataset=server_dataset, client_datasets=client_datasets, model=model)
     
@@ -136,7 +139,7 @@ if __name__ == "__main__":
     ######################
     ## federated learning settings
     parser.add_argument('--algorithm', help='federated learning algorithm to be used', type=str,
-        choices=['fedavg', 'fedsgd', 'fedprox', 'fedavgm'], 
+        choices=['fedavg', 'fedsgd', 'fedprox', 'fedavgm', 'fedavgimportance'], 
         required=True
     )
     parser.add_argument('--eval_type', help='''the evaluation type of a model trained from FL algorithm
